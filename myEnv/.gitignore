@@ -1,0 +1,10 @@
+# created by virtualenv automatically
+# Ignorar carpetas de entorno virtual
+myEnv/
+venv/
+.env
+
+# Ignorar archivos temporales de Python
+__pycache__/
+*.pyc
+

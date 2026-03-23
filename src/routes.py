@@ -18,7 +18,7 @@ def contacto():
 def info_json():
     # Devolvemos un diccionario como JSON
     datos = {
-        "centro educativo": "Peñascal",
+        "centro educativo": "Penascal",
         "curso": "Full Stack",
         "tecnologia": "Python Flask"
     }
