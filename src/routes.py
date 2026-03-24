@@ -6,13 +6,14 @@ from flasgger import Swagger
 from usuarios import * 
 app = Flask(__name__)
 
-# Importamos Swagger, acceder a Swagger UI por http://127.0.0.1:5000/apidocs/
+# Importamos Swagger, acceder a Swagger
 Swagger(app)
 cors = CORS(app)
 
 @app.route("/") 
 def hello_root():
-    return '<h1>Bienvenido al sistema de Gestión de Usuarios (Bilbao)</h1>'
+    return '<h1>Bienvenido al sistema de Gestión de Usuarios (Bilbao)</h1> ' \
+    '<p>acceder a Swagger UI por http://127.0.0.1:5000/apidocs/</p>'
 
 # 1. Obtener todos los usuarios (Carlos, Ana, Luis...)
 # Flasgger usa comentarios tipo YAML dentro de cada ruta.
