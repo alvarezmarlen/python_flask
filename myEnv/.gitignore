@@ -1,10 +1,2 @@
-# created by virtualenv automatically
-# Ignorar carpetas de entorno virtual
-myEnv/
-venv/
-.env
-
-# Ignorar archivos temporales de Python
-__pycache__/
-*.pyc
-
+# Created by venv; see https://docs.python.org/3/library/venv.html
+*
