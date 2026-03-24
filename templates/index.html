@@ -1,0 +1,19 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>API Swagger</title>
+</head>
+<body>
+    <h1>Bienvenido a la API con Swagger</h1>
+    <p>Puedes acceder a la documentación Swagger en: <a href="/apidocs">/apidocs</a></p>
+
+    <h2>Usuarios de ejemplo:</h2>
+    <ul>
+        {% for usuario in usuarios %}
+            <li>{{ usuario.id }} - {{ usuario.nombre }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
