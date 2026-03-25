@@ -30,9 +30,15 @@ def create(new_user):
     con = sqlite3.connect("usuarios.db")
     try:
         cur = con.cursor()
-        columnas = (new_user['id'], new_user['nombre'], new_user['edad'], new_user['altura'], new_user['pais'])
-        cur.execute("INSERT INTO LISTADEUSUARIOS (ID, NOMBRE, EDAD, ALTURA, PAIS) VALUES (?, ?, ?, ?, ?)", columnas)
+        # No incluimos ID
+        columnas = (new_user['nombre'], new_user['edad'], new_user['altura'], new_user['pais'])
+        cur.execute(
+            "INSERT INTO LISTADEUSUARIOS (NOMBRE, EDAD, ALTURA, PAIS) VALUES (?, ?, ?, ?)",
+            columnas
+        )
         con.commit()
+        # Devolvemos el id que se generó automáticamente
+        return cur.lastrowid
     finally:
         con.close()
 

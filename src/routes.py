@@ -72,14 +72,13 @@ def new_usuario():
         schema:
           type: object
           properties:
-            id:
-              type: integer
             nombre:
               type: string
             edad:
               type: integer
             altura:
-              type: real
+              type: number
+              format: float
             pais:
               type: string
     responses:
