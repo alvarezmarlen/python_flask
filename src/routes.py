@@ -70,20 +70,42 @@ def new_usuario():
         in: body
         required: true
         schema:
-          type: object
-          properties:
-            nombre:
-              type: string
-            edad:
-              type: integer
-            altura:
-              type: number
-              format: float
-            pais:
-              type: string
+          $ref: '#/definitions/UsuarioPost'
     responses:
       201:
         description: Usuario creado correctamente
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Usuario recibido"
+    definitions:
+      UsuarioPost:
+        type: object
+        required:
+          - nombre
+          - edad
+          - altura
+          - pais
+        properties:
+          nombre:
+            type: string
+            description: Nombre completo del usuario
+          edad:
+            type: integer
+            description: Edad del usuario
+          altura:
+            type: number
+            description: Altura en metros
+          pais:
+            type: string
+            description: País de residencia
+        example:
+          nombre: "Carlos"
+          edad: 25
+          altura: 1.75
+          pais: "España"
     """
 
     data = request.get_json()
@@ -104,13 +126,52 @@ def update_user_route(user_id):
         in: path
         type: string
         required: true
+        description: ID del usuario a actualizar
       - name: body
         in: body
+        required: true
         schema:
-          type: object
+          $ref: '#/definitions/Usuario'
     responses:
       200:
-        description: Usuario actualizado
+        description: Usuario actualizado correctamente
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Usuario actualizado"
+    definitions:
+      Usuario:
+        type: object
+        required:
+          - id
+          - nombre
+          - edad
+          - altura
+          - pais
+        properties:
+          id:
+            type: integer
+            description: ID del usuario
+          nombre:
+            type: string
+            description: Nombre completo del usuario
+          edad:
+            type: integer
+            description: Edad del usuario
+          altura:
+            type: number
+            description: Altura en metros
+          pais:
+            type: string
+            description: País de residencia
+        example:
+          id: 3
+          nombre: "Luis"
+          edad: 28
+          altura: 1.75
+          pais: "España"
     """
 
     data = request.get_json()
