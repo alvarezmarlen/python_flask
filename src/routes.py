@@ -1,44 +1,142 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from flasgger import Swagger
 
 # Importamos desde tu archivo de servicios (el que adaptamos antes)
 from usuarios import * 
 app = Flask(__name__)
+
+# Importamos Swagger, acceder a Swagger
+Swagger(app)
 cors = CORS(app)
 
 @app.route("/") 
 def hello_root():
-    return '<h1>Bienvenido al sistema de Gestión de Usuarios (Bilbao)</h1>'
+    return '<h1>Bienvenido al sistema de Gestión de Usuarios (Bilbao)</h1> ' \
+    '<p>acceder a Swagger UI por http://127.0.0.1:5000/apidocs/</p>'
 
 # 1. Obtener todos los usuarios (Carlos, Ana, Luis...)
+# Flasgger usa comentarios tipo YAML dentro de cada ruta.
 @app.route("/usuarios", methods=['GET'])
 def get_usuarios():
+    
+    """
+    Obtener todos los usuarios
+    ---
+    responses:
+      200:
+        description: Lista de usuarios
+        examples:
+          application/json:
+            [
+              {"id": 1, "altura": 1.75, "edad": 25, "nombre": "Carlos", "pais": "España"},
+              {"id": 2, "altura": 1.65, "edad": 30, "nombre": "Ana", "pais": "México"}
+            ]
+    """
+
     return get_all_usuarios()
 
 # 2. Obtener un usuario específico por su ID
+# Flasgger usa comentarios tipo YAML dentro de cada ruta.
 @app.route("/usuarios/<user_id>", methods=['GET'])
 def get_usuario(user_id):
+    
+    """
+    Obtener usuario por ID
+    ---
+    parameters:
+      - name: user_id
+        in: path
+        type: string
+        required: true
+        description: ID del usuario
+    responses:
+      200:
+        description: Usuario encontrado
+    """
+
     return get_usuario_by(user_id)
 
 # 3. Crear un nuevo usuario
+# Flasgger usa comentarios tipo YAML dentro de cada ruta.
 @app.route("/usuarios", methods=["POST"])
 def new_usuario():
+
+    """
+    Crear un nuevo usuario
+    ---
+    parameters:
+      - name: body
+        in: body
+        required: true
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+            nombre:
+              type: string
+            edad:
+              type: integer
+            altura:
+              type: real
+            pais:
+              type: string
+    responses:
+      201:
+        description: Usuario creado correctamente
+    """
+
     data = request.get_json()
     print('** Creando nuevo usuario:', data)
     post_usuario(data)
     return jsonify({"message": "Usuario recibido"}), 201
 
 # 4. Actualizar un usuario existente
+# Flasgger usa comentarios tipo YAML dentro de cada ruta.
 @app.route("/usuarios/<user_id>", methods=["PUT"])
 def update_user_route(user_id):
+
+    """
+    Actualizar un usuario
+    ---
+    parameters:
+      - name: user_id
+        in: path
+        type: string
+        required: true
+      - name: body
+        in: body
+        schema:
+          type: object
+    responses:
+      200:
+        description: Usuario actualizado
+    """
+
     data = request.get_json()
     print('** Actualizando usuario ID:', user_id)
     update_usuario(data)
     return jsonify({"message": "Usuario actualizado"}), 200
 
 # 5. Eliminar un usuario
+# Flasgger usa comentarios tipo YAML dentro de cada ruta.
 @app.route("/usuarios/<user_id>", methods=['DELETE'])
 def delete_usuario_route(user_id):
+
+    """
+    Eliminar usuario
+    ---
+    parameters:
+      - name: user_id
+        in: path
+        type: string
+        required: true
+    responses:
+      200:
+        description: Usuario eliminado
+    """
+
     print('** Eliminando usuario ID:', user_id)
     del_usuario(user_id)
     return jsonify({"message": "Usuario eliminado"}), 200
