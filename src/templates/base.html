@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Mi Aplicación{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <h1>{% block header %}Bienvenido{% endblock %}</h1>
+    </header>
+
+    <main>
+        {% block content %}
+        <!-- Aquí irá el contenido de cada página -->
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>2026 Sistema de Usuarios</p>
+    </footer>
+</body>
+</html>

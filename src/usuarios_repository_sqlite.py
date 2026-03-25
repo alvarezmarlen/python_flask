@@ -10,7 +10,10 @@ def read_all():
         lista = []
         for u in usuarios_sql:
             lista.append({"id": u[0], "nombre": u[1], "edad": u[2], "altura": u[3], "pais": u[4]})
-        return jsonify(lista)
+        # Movido jsonify(lista) a @app.route("/usuarios", methods=['GET'])
+        # De esta forma, la función de servicio devuelve siempre datos puros 
+        # y luego decides si los mandas como JSON
+        return lista
     finally:
         con.close()
 

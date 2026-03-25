@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from flasgger import Swagger
 
@@ -13,7 +13,7 @@ cors = CORS(app)
 @app.route("/") 
 def hello_root():
     return '<h1>Bienvenido al sistema de Gestión de Usuarios (Bilbao)</h1> ' \
-    '<p>acceder a Swagger UI por http://127.0.0.1:5000/apidocs/</p>'
+    '<p>Dashboard: http://127.0.0.1:5000/panel <br>SwaggerUI: http://127.0.0.1:5000/apidocs/</p>'
 
 # 1. Obtener todos los usuarios (Carlos, Ana, Luis...)
 # Flasgger usa comentarios tipo YAML dentro de cada ruta.
@@ -33,8 +33,8 @@ def get_usuarios():
               {"id": 2, "altura": 1.65, "edad": 30, "nombre": "Ana", "pais": "México"}
             ]
     """
-
-    return get_all_usuarios()
+    usuarios = get_all_usuarios()
+    return jsonify(usuarios)
 
 # 2. Obtener un usuario específico por su ID
 # Flasgger usa comentarios tipo YAML dentro de cada ruta.
@@ -200,6 +200,17 @@ def delete_usuario_route(user_id):
     print('** Eliminando usuario ID:', user_id)
     del_usuario(user_id)
     return jsonify({"message": "Usuario eliminado"}), 200
+
+# 6. Ruta que accede a una plantilla JInga2 
+@app.route("/panel")
+def index():
+
+    # Obtenemos todos los usuarios usando tu función del servicio
+    usuarios = get_all_usuarios()  # esto devuelve una lista de dicts
+    
+    # Pasamos la lista a la plantilla
+    return render_template("panel.html", usuarios=usuarios)
+
 
 if __name__ == "__main__":
     app.run(debug=True)

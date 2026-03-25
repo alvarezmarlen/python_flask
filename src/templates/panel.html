@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Panel de Usuarios{% endblock %}
+
+{% block header %}Lista de Usuarios{% endblock %}
+
+{% block content %}
+    {% if usuarios %}
+        <ul>
+        {% for usuario in usuarios %}
+            <li>{{ usuario.nombre }} - {{ usuario.edad }} años - {{ usuario.pais }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No hay usuarios en la base de datos.</p>
+    {% endif %}
+{% endblock %}
