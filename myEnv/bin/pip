@@ -1,4 +1,6 @@
-#!/home/penascalf5/Escritorio/Proyecto_Python_Flask/myEnv/bin/python
+#!/bin/sh
+'''exec' "/home/penascalf5/Documentos/Visual Studio Code/Flask/python_flask/myEnv/bin/python3" "$0" "$@"
+' '''
 # -*- coding: utf-8 -*-
 import re
 import sys
