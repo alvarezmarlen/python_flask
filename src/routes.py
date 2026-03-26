@@ -2,13 +2,44 @@ from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from flasgger import Swagger
 
-# Importamos desde tu archivo de servicios (el que adaptamos antes)
+# Importamos desde archivo de servicios (el que adaptamos antes)
 from usuarios import * 
 app = Flask(__name__)
 
-# Importamos Swagger, acceder a Swagger
-Swagger(app)
+# Importamos Swagger
 cors = CORS(app)
+
+# Plantilla global de Swagger
+swagger_template = {
+    "swagger": "2.0",
+    "info": {
+        "title": "API de Usuarios",
+        "description": "API para manejar usuarios",
+        "version": "1.0.0"
+    },
+    "basePath": "/",
+    "schemes": ["http", "https"],
+    "definitions": {
+        "Usuario": {
+            "type": "object",
+            "required": ["nombre", "edad", "altura", "pais"],
+            "properties": {
+                "nombre": {"type": "string", "description": "Nombre completo del usuario"},
+                "edad": {"type": "integer", "description": "Edad del usuario"},
+                "altura": {"type": "number", "description": "Altura en metros"},
+                "pais": {"type": "string", "description": "País de residencia"}
+            },
+            "example": {
+                "nombre": "Luis",
+                "edad": 28,
+                "altura": 1.75,
+                "pais": "España"
+            }
+        }
+    }
+}
+
+swagger = Swagger(app, template=swagger_template)
 
 
 # 1. Obtener todos los usuarios (Carlos, Ana, Luis...)
@@ -49,6 +80,8 @@ def get_usuario(user_id):
     responses:
       200:
         description: Usuario encontrado
+        schema:
+          $ref: '#/definitions/Usuario'
     """
 
     return get_usuario_by(user_id)
@@ -66,7 +99,7 @@ def new_usuario():
         in: body
         required: true
         schema:
-          $ref: '#/definitions/UsuarioPost'
+          $ref: '#/definitions/Usuario'
     responses:
       201:
         description: Usuario creado correctamente
@@ -76,32 +109,6 @@ def new_usuario():
             message:
               type: string
               example: "Usuario recibido"
-    definitions:
-      UsuarioPost:
-        type: object
-        required:
-          - nombre
-          - edad
-          - altura
-          - pais
-        properties:
-          nombre:
-            type: string
-            description: Nombre completo del usuario
-          edad:
-            type: integer
-            description: Edad del usuario
-          altura:
-            type: number
-            description: Altura en metros
-          pais:
-            type: string
-            description: País de residencia
-        example:
-          nombre: "Carlos"
-          edad: 25
-          altura: 1.75
-          pais: "España"
     """
 
     data = request.get_json()
@@ -122,7 +129,6 @@ def update_user_route(user_id):
         in: path
         type: string
         required: true
-        description: ID del usuario a actualizar
       - name: body
         in: body
         required: true
@@ -137,32 +143,6 @@ def update_user_route(user_id):
             message:
               type: string
               example: "Usuario actualizado"
-    definitions:
-      Usuario:
-        type: object
-        required:
-          - nombre
-          - edad
-          - altura
-          - pais
-        properties:
-          nombre:
-            type: string
-            description: Nombre completo del usuario
-          edad:
-            type: integer
-            description: Edad del usuario
-          altura:
-            type: number
-            description: Altura en metros
-          pais:
-            type: string
-            description: País de residencia
-        example:
-          nombre: "Luis"
-          edad: 28
-          altura: 1.75
-          pais: "España"
     """
 
     data = request.get_json()
@@ -187,7 +167,6 @@ def delete_usuario_route(user_id):
       200:
         description: Usuario eliminado
     """
-
     print('** Eliminando usuario ID:', user_id)
     del_usuario(user_id)
     return jsonify({"message": "Usuario eliminado"}), 200
@@ -221,15 +200,28 @@ def patch_usuario_route(user_id):
           properties:
             nombre:
               type: string
+              description: Nombre completo del usuario
             edad:
               type: integer
+              description: Edad del usuario
             altura:
               type: number
+              description: Altura en metros
             pais:
               type: string
+              description: País de residencia
+          example:
+            nombre: "Ana"
+            altura: 1.68
     responses:
       200:
         description: Usuario actualizado parcialmente
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Usuario actualizado parcialmente"
     """
 
     data = request.get_json()
