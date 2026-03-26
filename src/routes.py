@@ -202,6 +202,42 @@ def index():
     # Pasamos la lista a la plantilla
     return render_template("panel.html", usuarios=usuarios)
 
+@app.route("/usuarios/<user_id>", methods=["PATCH"])
+def patch_usuario_route(user_id):
+
+    """
+    Actualizar parcialmente un usuario
+    ---
+    parameters:
+      - name: user_id
+        in: path
+        type: string
+        required: true
+      - name: body
+        in: body
+        required: true
+        schema:
+          type: object
+          properties:
+            nombre:
+              type: string
+            edad:
+              type: integer
+            altura:
+              type: number
+            pais:
+              type: string
+    responses:
+      200:
+        description: Usuario actualizado parcialmente
+    """
+
+    data = request.get_json()
+    print('** PATCH usuario ID:', user_id, data)
+
+    patch_usuario(user_id, data)
+
+    return jsonify({"message": "Usuario actualizado parcialmente"}), 200
 
 if __name__ == "__main__":
     app.run(debug=True)

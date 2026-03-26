@@ -68,3 +68,24 @@ def delete(user_id):
         con.commit()
     finally:
         con.close()
+
+def patch(user_id, fields):
+    con = sqlite3.connect("usuarios.db")
+    try:
+        cur = con.cursor()
+
+        # Construir query dinámica
+        keys = []
+        values = []
+
+        for key, value in fields.items():
+            keys.append(f"{key.upper()}=?")
+            values.append(value)
+
+        values.append(user_id)
+
+        query = f"UPDATE LISTADEUSUARIOS SET {', '.join(keys)} WHERE ID=?"
+        cur.execute(query, values)
+        con.commit()
+    finally:
+        con.close()
