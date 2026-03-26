@@ -1,6 +1,2 @@
-# Entorno virtual
-myEnv/
-__pycache__/
-
-# Base de Datos de SQLite (archivos de prueba locales)
-*.db
+#Created by venv; see https://docs.python.org/3/library/venv.html
+*
