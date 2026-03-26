@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from flasgger import Swagger
 
@@ -13,7 +13,7 @@ cors = CORS(app)
 @app.route("/") 
 def hello_root():
     return '<h1>Bienvenido al sistema de Gestión de Usuarios (Bilbao)</h1> ' \
-    '<p>acceder a Swagger UI por http://127.0.0.1:5000/apidocs/</p>'
+    '<p>Dashboard: http://127.0.0.1:5000/panel <br>SwaggerUI: http://127.0.0.1:5000/apidocs/</p>'
 
 # 1. Obtener todos los usuarios (Carlos, Ana, Luis...)
 # Flasgger usa comentarios tipo YAML dentro de cada ruta.
@@ -33,8 +33,8 @@ def get_usuarios():
               {"id": 2, "altura": 1.65, "edad": 30, "nombre": "Ana", "pais": "México"}
             ]
     """
-
-    return get_all_usuarios()
+    usuarios = get_all_usuarios()
+    return jsonify(usuarios)
 
 # 2. Obtener un usuario específico por su ID
 # Flasgger usa comentarios tipo YAML dentro de cada ruta.
@@ -70,21 +70,42 @@ def new_usuario():
         in: body
         required: true
         schema:
-          type: object
-          properties:
-            id:
-              type: integer
-            nombre:
-              type: string
-            edad:
-              type: integer
-            altura:
-              type: real
-            pais:
-              type: string
+          $ref: '#/definitions/UsuarioPost'
     responses:
       201:
         description: Usuario creado correctamente
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Usuario recibido"
+    definitions:
+      UsuarioPost:
+        type: object
+        required:
+          - nombre
+          - edad
+          - altura
+          - pais
+        properties:
+          nombre:
+            type: string
+            description: Nombre completo del usuario
+          edad:
+            type: integer
+            description: Edad del usuario
+          altura:
+            type: number
+            description: Altura en metros
+          pais:
+            type: string
+            description: País de residencia
+        example:
+          nombre: "Carlos"
+          edad: 25
+          altura: 1.75
+          pais: "España"
     """
 
     data = request.get_json()
@@ -105,13 +126,52 @@ def update_user_route(user_id):
         in: path
         type: string
         required: true
+        description: ID del usuario a actualizar
       - name: body
         in: body
+        required: true
         schema:
-          type: object
+          $ref: '#/definitions/Usuario'
     responses:
       200:
-        description: Usuario actualizado
+        description: Usuario actualizado correctamente
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Usuario actualizado"
+    definitions:
+      Usuario:
+        type: object
+        required:
+          - id
+          - nombre
+          - edad
+          - altura
+          - pais
+        properties:
+          id:
+            type: integer
+            description: ID del usuario
+          nombre:
+            type: string
+            description: Nombre completo del usuario
+          edad:
+            type: integer
+            description: Edad del usuario
+          altura:
+            type: number
+            description: Altura en metros
+          pais:
+            type: string
+            description: País de residencia
+        example:
+          id: 3
+          nombre: "Luis"
+          edad: 28
+          altura: 1.75
+          pais: "España"
     """
 
     data = request.get_json()
@@ -140,6 +200,17 @@ def delete_usuario_route(user_id):
     print('** Eliminando usuario ID:', user_id)
     del_usuario(user_id)
     return jsonify({"message": "Usuario eliminado"}), 200
+
+# 6. Ruta que accede a una plantilla JInga2 
+@app.route("/panel")
+def index():
+
+    # Obtenemos todos los usuarios usando tu función del servicio
+    usuarios = get_all_usuarios()  # esto devuelve una lista de dicts
+    
+    # Pasamos la lista a la plantilla
+    return render_template("panel.html", usuarios=usuarios)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
