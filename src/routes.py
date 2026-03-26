@@ -141,15 +141,11 @@ def update_user_route(user_id):
       Usuario:
         type: object
         required:
-          - id
           - nombre
           - edad
           - altura
           - pais
         properties:
-          id:
-            type: integer
-            description: ID del usuario
           nombre:
             type: string
             description: Nombre completo del usuario
@@ -163,7 +159,6 @@ def update_user_route(user_id):
             type: string
             description: País de residencia
         example:
-          id: 3
           nombre: "Luis"
           edad: 28
           altura: 1.75
@@ -172,7 +167,7 @@ def update_user_route(user_id):
 
     data = request.get_json()
     print('** Actualizando usuario ID:', user_id)
-    update_usuario(data)
+    update_usuario(user_id, data)
     return jsonify({"message": "Usuario actualizado"}), 200
 
 # 5. Eliminar un usuario

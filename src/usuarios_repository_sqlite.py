@@ -47,12 +47,12 @@ def create(new_user):
 
 
 
-def update(upd_user):
+def update(user_id, upd_user):
     con = sqlite3.connect("usuarios.db")
     try:
         cur = con.cursor()
         # Actualizamos por ID
-        columnas = (upd_user['nombre'], upd_user['edad'], upd_user['altura'], upd_user['pais'], upd_user['id'])
+        columnas = (upd_user['nombre'], upd_user['edad'], upd_user['altura'], upd_user['pais'], user_id)
         cur.execute("UPDATE LISTADEUSUARIOS SET NOMBRE=?, EDAD=?, ALTURA=?, PAIS=? WHERE ID=?", columnas)
         con.commit()
     finally:
