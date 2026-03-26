@@ -10,10 +10,6 @@ app = Flask(__name__)
 Swagger(app)
 cors = CORS(app)
 
-@app.route("/") 
-def hello_root():
-    return '<h1>Bienvenido al sistema de Gestión de Usuarios (Bilbao)</h1> ' \
-    '<p>Dashboard: http://127.0.0.1:5000/panel <br>SwaggerUI: http://127.0.0.1:5000/apidocs/</p>'
 
 # 1. Obtener todos los usuarios (Carlos, Ana, Luis...)
 # Flasgger usa comentarios tipo YAML dentro de cada ruta.
@@ -202,7 +198,7 @@ def delete_usuario_route(user_id):
     return jsonify({"message": "Usuario eliminado"}), 200
 
 # 6. Ruta que accede a una plantilla JInga2 
-@app.route("/panel")
+@app.route("/")
 def index():
 
     # Obtenemos todos los usuarios usando tu función del servicio
