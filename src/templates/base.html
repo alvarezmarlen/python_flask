@@ -3,6 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Mi Aplicación{% endblock %}</title>
+    <style>
+        .card {
+            width: 30%;
+            margin: 2rem;
+            padding: 2rem;
+            border-radius: 2px;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -10,11 +19,14 @@
         <a href="http://127.0.0.1:5000/apidocs">Probar la API con Swagger</a>
     </header>
 
-    <h2>{% block header %}Bienvenido{% endblock %}</h2>
     <main>
+        <h2>{% block header %}Bienvenido{% endblock %}</h2>
+
+        <div class="card">
         {% block content %}
         <!-- Aquí irá el contenido de cada página -->
         {% endblock %}
+        </div>
     </main>
 
     <footer>

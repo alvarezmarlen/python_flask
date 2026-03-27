@@ -47,12 +47,12 @@ def create(new_user):
 
 
 
-def update(upd_user):
+def update(user_id, upd_user):
     con = sqlite3.connect("usuarios.db")
     try:
         cur = con.cursor()
         # Actualizamos por ID
-        columnas = (upd_user['nombre'], upd_user['edad'], upd_user['altura'], upd_user['pais'], upd_user['id'])
+        columnas = (upd_user['nombre'], upd_user['edad'], upd_user['altura'], upd_user['pais'], user_id)
         cur.execute("UPDATE LISTADEUSUARIOS SET NOMBRE=?, EDAD=?, ALTURA=?, PAIS=? WHERE ID=?", columnas)
         con.commit()
     finally:
@@ -65,6 +65,27 @@ def delete(user_id):
     try:
         cur = con.cursor()
         cur.execute("DELETE FROM LISTADEUSUARIOS WHERE ID=?", [user_id])
+        con.commit()
+    finally:
+        con.close()
+
+def patch(user_id, fields):
+    con = sqlite3.connect("usuarios.db")
+    try:
+        cur = con.cursor()
+
+        # Construir query dinámica
+        keys = []
+        values = []
+
+        for key, value in fields.items():
+            keys.append(f"{key.upper()}=?")
+            values.append(value)
+
+        values.append(user_id)
+
+        query = f"UPDATE LISTADEUSUARIOS SET {', '.join(keys)} WHERE ID=?"
+        cur.execute(query, values)
         con.commit()
     finally:
         con.close()
