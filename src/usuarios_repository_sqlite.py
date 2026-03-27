@@ -15,7 +15,7 @@ def read_all():
         # y luego decides si los mandas como JSON
         return lista
     finally:
-        con.close()
+        con.close()                                                                                                                     
 
 
 def read(user_id):
