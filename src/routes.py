@@ -2,18 +2,45 @@ from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from flasgger import Swagger
 
-# Importamos desde tu archivo de servicios (el que adaptamos antes)
+# Importamos desde archivo de servicios (el que adaptamos antes)
 from usuarios import * 
 app = Flask(__name__)
 
-# Importamos Swagger, acceder a Swagger
-Swagger(app)
+# Importamos Swagger
 cors = CORS(app)
 
-@app.route("/") 
-def hello_root():
-    return '<h1>Bienvenido al sistema de Gestión de Usuarios (Bilbao)</h1> ' \
-    '<p>Dashboard: http://127.0.0.1:5000/panel <br>SwaggerUI: http://127.0.0.1:5000/apidocs/</p>'
+# Plantilla global de Swagger
+swagger_template = {
+    "swagger": "2.0",
+    "info": {
+        "title": "API de Usuarios",
+        "description": "API para manejar usuarios",
+        "version": "1.0.0"
+    },
+    "basePath": "/",
+    "schemes": ["http", "https"],
+    "definitions": {
+        "Usuario": {
+            "type": "object",
+            "required": ["nombre", "edad", "altura", "pais"],
+            "properties": {
+                "nombre": {"type": "string", "description": "Nombre completo del usuario"},
+                "edad": {"type": "integer", "description": "Edad del usuario"},
+                "altura": {"type": "number", "description": "Altura en metros"},
+                "pais": {"type": "string", "description": "País de residencia"}
+            },
+            "example": {
+                "nombre": "Luis",
+                "edad": 28,
+                "altura": 1.75,
+                "pais": "España"
+            }
+        }
+    }
+}
+
+swagger = Swagger(app, template=swagger_template)
+
 
 # 1. Obtener todos los usuarios (Carlos, Ana, Luis...)
 # Flasgger usa comentarios tipo YAML dentro de cada ruta.
@@ -53,6 +80,8 @@ def get_usuario(user_id):
     responses:
       200:
         description: Usuario encontrado
+        schema:
+          $ref: '#/definitions/Usuario'
     """
 
     return get_usuario_by(user_id)
@@ -70,7 +99,7 @@ def new_usuario():
         in: body
         required: true
         schema:
-          $ref: '#/definitions/UsuarioPost'
+          $ref: '#/definitions/Usuario'
     responses:
       201:
         description: Usuario creado correctamente
@@ -80,32 +109,6 @@ def new_usuario():
             message:
               type: string
               example: "Usuario recibido"
-    definitions:
-      UsuarioPost:
-        type: object
-        required:
-          - nombre
-          - edad
-          - altura
-          - pais
-        properties:
-          nombre:
-            type: string
-            description: Nombre completo del usuario
-          edad:
-            type: integer
-            description: Edad del usuario
-          altura:
-            type: number
-            description: Altura en metros
-          pais:
-            type: string
-            description: País de residencia
-        example:
-          nombre: "Carlos"
-          edad: 25
-          altura: 1.75
-          pais: "España"
     """
 
     data = request.get_json()
@@ -126,7 +129,6 @@ def update_user_route(user_id):
         in: path
         type: string
         required: true
-        description: ID del usuario a actualizar
       - name: body
         in: body
         required: true
@@ -141,42 +143,11 @@ def update_user_route(user_id):
             message:
               type: string
               example: "Usuario actualizado"
-    definitions:
-      Usuario:
-        type: object
-        required:
-          - id
-          - nombre
-          - edad
-          - altura
-          - pais
-        properties:
-          id:
-            type: integer
-            description: ID del usuario
-          nombre:
-            type: string
-            description: Nombre completo del usuario
-          edad:
-            type: integer
-            description: Edad del usuario
-          altura:
-            type: number
-            description: Altura en metros
-          pais:
-            type: string
-            description: País de residencia
-        example:
-          id: 3
-          nombre: "Luis"
-          edad: 28
-          altura: 1.75
-          pais: "España"
     """
 
     data = request.get_json()
     print('** Actualizando usuario ID:', user_id)
-    update_usuario(data)
+    update_usuario(user_id, data)
     return jsonify({"message": "Usuario actualizado"}), 200
 
 # 5. Eliminar un usuario
@@ -196,13 +167,12 @@ def delete_usuario_route(user_id):
       200:
         description: Usuario eliminado
     """
-
     print('** Eliminando usuario ID:', user_id)
     del_usuario(user_id)
     return jsonify({"message": "Usuario eliminado"}), 200
 
 # 6. Ruta que accede a una plantilla JInga2 
-@app.route("/panel")
+@app.route("/")
 def index():
 
     # Obtenemos todos los usuarios usando tu función del servicio
@@ -211,6 +181,55 @@ def index():
     # Pasamos la lista a la plantilla
     return render_template("panel.html", usuarios=usuarios)
 
+@app.route("/usuarios/<user_id>", methods=["PATCH"])
+def patch_usuario_route(user_id):
+
+    """
+    Actualizar parcialmente un usuario
+    ---
+    parameters:
+      - name: user_id
+        in: path
+        type: string
+        required: true
+      - name: body
+        in: body
+        required: true
+        schema:
+          type: object
+          properties:
+            nombre:
+              type: string
+              description: Nombre completo del usuario
+            edad:
+              type: integer
+              description: Edad del usuario
+            altura:
+              type: number
+              description: Altura en metros
+            pais:
+              type: string
+              description: País de residencia
+          example:
+            nombre: "Ana"
+            altura: 1.68
+    responses:
+      200:
+        description: Usuario actualizado parcialmente
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: "Usuario actualizado parcialmente"
+    """
+
+    data = request.get_json()
+    print('** PATCH usuario ID:', user_id, data)
+
+    patch_usuario(user_id, data)
+
+    return jsonify({"message": "Usuario actualizado parcialmente"}), 200
 
 if __name__ == "__main__":
     app.run(debug=True)

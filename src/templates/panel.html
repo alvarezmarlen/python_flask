@@ -8,7 +8,7 @@
     {% if usuarios %}
         <ul>
         {% for usuario in usuarios %}
-            <li>{{ usuario.nombre }} - {{ usuario.edad }} años - {{ usuario.pais }}</li>
+            <li>{{ usuario.id }} - {{ usuario.nombre }} - {{ usuario.edad }} años - {{ usuario.pais }} </li>
         {% endfor %}
         </ul>
     {% else %}
