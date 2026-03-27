@@ -16,6 +16,7 @@ def post_usuario(nuevo_usuario):
 def update_usuario(user_id, usuario_actualizado):
     # Llama a la función update()
     update(user_id, usuario_actualizado)
+    return update(user_id, usuario_actualizado)
 
 def del_usuario(id_usuario):
     # Llama a la función delete()
@@ -23,3 +24,4 @@ def del_usuario(id_usuario):
 
 def patch_usuario(user_id, datos_parciales):
     patch(user_id, datos_parciales)
+    return patch(user_id, datos_parciales)

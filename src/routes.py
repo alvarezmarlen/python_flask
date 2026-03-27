@@ -143,11 +143,30 @@ def update_user_route(user_id):
             message:
               type: string
               example: "Usuario actualizado"
+      400: 
+        description: Error en la solicitud (datos inválidos o vacíos) 
+        schema: 
+          type: object 
+          properties: 
+            error: 
+              type: string 
+              example: "No hay datos para actualizar"
+      404: 
+        description: Usuario no encontrado
+        schema: 
+          type: object 
+          properties: 
+            error: 
+              type: string 
+              example: "Usuario no encontrado"
     """
 
     data = request.get_json()
-    print('** Actualizando usuario ID:', user_id)
-    update_usuario(user_id, data)
+    actualizado = update_usuario(user_id, data)
+
+    if not actualizado:
+        return jsonify({"error": "Usuario no encontrado"}), 404
+    
     return jsonify({"message": "Usuario actualizado"}), 200
 
 # 5. Eliminar un usuario
@@ -222,12 +241,36 @@ def patch_usuario_route(user_id):
             message:
               type: string
               example: "Usuario actualizado parcialmente"
+      400: 
+        description: Error en la solicitud (datos inválidos o vacíos) 
+        schema: 
+          type: object 
+          properties: 
+            error: 
+              type: string 
+              example: "No hay datos para actualizar"
+      404: 
+        description: Usuario no encontrado
+        schema: 
+          type: object 
+          properties: 
+            error: 
+              type: string 
+              example: "Usuario no encontrado"
     """
 
     data = request.get_json()
     print('** PATCH usuario ID:', user_id, data)
 
+    if not data:
+        return jsonify({"error": "No hay datos para actualizar"}), 400
+
     patch_usuario(user_id, data)
+
+    actualizado = patch_usuario(user_id, data)
+
+    if not actualizado:
+        return jsonify({"error": "Usuario no encontrado"}), 404
 
     return jsonify({"message": "Usuario actualizado parcialmente"}), 200
 

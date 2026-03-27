@@ -55,6 +55,10 @@ def update(user_id, upd_user):
         columnas = (upd_user['nombre'], upd_user['edad'], upd_user['altura'], upd_user['pais'], user_id)
         cur.execute("UPDATE LISTADEUSUARIOS SET NOMBRE=?, EDAD=?, ALTURA=?, PAIS=? WHERE ID=?", columnas)
         con.commit()
+
+        if cur.rowcount == 0:
+            return False  # No existe el usuario
+        return True
     finally:
         con.close()
 
@@ -77,8 +81,11 @@ def patch(user_id, fields):
         # Construir query dinámica
         keys = []
         values = []
+        allowed = {"nombre", "edad", "altura", "pais"}
 
         for key, value in fields.items():
+            if key not in allowed:
+                continue
             keys.append(f"{key.upper()}=?")
             values.append(value)
 
@@ -87,5 +94,9 @@ def patch(user_id, fields):
         query = f"UPDATE LISTADEUSUARIOS SET {', '.join(keys)} WHERE ID=?"
         cur.execute(query, values)
         con.commit()
+
+        if cur.rowcount == 0:
+            return False
+        return True
     finally:
         con.close()
