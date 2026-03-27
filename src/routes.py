@@ -82,9 +82,22 @@ def get_usuario(user_id):
         description: Usuario encontrado
         schema:
           $ref: '#/definitions/Usuario'
+      404: 
+          description: Usuario no encontrado
+          schema: 
+            type: object 
+            properties: 
+              error: 
+                type: string 
+                example: "Usuario no encontrado"
     """
 
-    return get_usuario_by(user_id)
+    usuario = get_usuario_by(user_id)
+
+    if not usuario:
+        return jsonify({"error": "Usuario no encontrado"}), 404
+
+    return jsonify(usuario)
 
 # 3. Crear un nuevo usuario
 # Flasgger usa comentarios tipo YAML dentro de cada ruta.
@@ -160,8 +173,21 @@ def update_user_route(user_id):
               type: string 
               example: "Usuario no encontrado"
     """
-
     data = request.get_json()
+
+    if not data:
+      return jsonify({"error": "Body vacío"}), 400
+
+    required_fields = ["nombre", "edad", "altura", "pais"]
+
+    missing = [f for f in required_fields if f not in data]
+
+    if missing:
+        return jsonify({
+            "error": "Faltan campos obligatorios",
+            "faltan": missing
+        }), 400
+
     actualizado = update_usuario(user_id, data)
 
     if not actualizado:
@@ -265,7 +291,6 @@ def patch_usuario_route(user_id):
     if not data:
         return jsonify({"error": "No hay datos para actualizar"}), 400
 
-    patch_usuario(user_id, data)
 
     actualizado = patch_usuario(user_id, data)
 

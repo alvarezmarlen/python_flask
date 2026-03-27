@@ -1,3 +1,10 @@
-myEnv/
-__pycache__/
+# Entorno virtual
+miVenv/
+
+# Base de datos (Muy importante si no quieres subir tus usuarios de prueba)
 *.db
+src/usuarios.db
+
+# Archivos temporales de Python
+__pycache__/
+*.py[cod]

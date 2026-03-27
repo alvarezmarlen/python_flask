@@ -23,7 +23,12 @@ def read(user_id):
     try:
         cur = con.cursor()
         res = cur.execute("SELECT ID, NOMBRE, EDAD, ALTURA, PAIS FROM LISTADEUSUARIOS WHERE ID=?", [user_id])
+
         u = res.fetchone()
+        
+        if not u:
+            return None
+        
         return {"id": u[0], "nombre": u[1], "edad": u[2], "altura": u[3], "pais": u[4]}
     finally:
         con.close()
