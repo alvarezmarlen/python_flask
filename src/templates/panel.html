@@ -6,12 +6,24 @@
 
 {% block content %}
     {% if usuarios %}
-        <ul>
+        <div class="user-grid">
         {% for usuario in usuarios %}
-            <li>{{ usuario.id }} - {{ usuario.nombre }} - {{ usuario.edad }} años - {{ usuario.pais }} </li>
+            <div class="user-card">
+                <span class="user-badge">ID: {{ usuario.id }}</span>
+                <div class="user-info">
+                    <strong>{{ usuario.nombre }}</strong>
+                    <div class="user-details">
+                        <div><strong>Edad:</strong> <span>{{ usuario.edad }} años</span></div>
+                        <div><strong>Altura:</strong> <span>{{ usuario.altura }} m</span></div>
+                        <div><strong>País:</strong> <span>{{ usuario.pais }}</span></div>
+                    </div>
+                </div>
+            </div>
         {% endfor %}
-        </ul>
+        </div>
     {% else %}
-        <p>No hay usuarios en la base de datos.</p>
+        <div class="empty-state">
+            <p>No hay usuarios en la base de datos.</p>
+        </div>
     {% endif %}
 {% endblock %}
