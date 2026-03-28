@@ -10,9 +10,6 @@ def read_all():
         lista = []
         for u in usuarios_sql:
             lista.append({"id": u[0], "nombre": u[1], "edad": u[2], "altura": u[3], "pais": u[4]})
-        # Movido jsonify(lista) a @app.route("/usuarios", methods=['GET'])
-        # De esta forma, la función de servicio devuelve siempre datos puros 
-        # y luego decides si los mandas como JSON
         return lista
     finally:
         con.close()                                                                                                                     
@@ -75,6 +72,10 @@ def delete(user_id):
         cur = con.cursor()
         cur.execute("DELETE FROM LISTADEUSUARIOS WHERE ID=?", [user_id])
         con.commit()
+
+        if cur.rowcount == 0:
+            return False  # no existe
+        return True       # eliminado
     finally:
         con.close()
 

@@ -91,7 +91,8 @@ def get_usuario(user_id):
                 type: string 
                 example: "Usuario no encontrado"
     """
-
+    user_id = int(user_id)
+    
     usuario = get_usuario_by(user_id)
 
     if not usuario:
@@ -122,9 +123,31 @@ def new_usuario():
             message:
               type: string
               example: "Usuario recibido"
+      400: 
+        description: Error en la solicitud (datos inválidos o vacíos) 
+        schema: 
+          type: object 
+          properties: 
+            error: 
+              type: string 
+              example: "No hay datos para actualizar"
     """
-
     data = request.get_json()
+    
+    # 1. Body vacío
+    if not data:
+        return jsonify({"error": "Body vacío"}), 400
+
+    # 2. Validar campos obligatorios
+    required_fields = ["nombre", "edad", "altura", "pais"]
+    missing = [f for f in required_fields if f not in data]
+
+    if missing:
+        return jsonify({
+            "error": "Faltan campos obligatorios",
+            "faltan": missing
+        }), 400
+    
     print('** Creando nuevo usuario:', data)
     post_usuario(data)
     return jsonify({"message": "Usuario recibido"}), 201
@@ -211,9 +234,21 @@ def delete_usuario_route(user_id):
     responses:
       200:
         description: Usuario eliminado
+      404: 
+        description: Usuario no encontrado
+        schema: 
+          type: object 
+          properties: 
+            error: 
+              type: string 
+              example: "Usuario no encontrado"
     """
     print('** Eliminando usuario ID:', user_id)
-    del_usuario(user_id)
+    eliminado = del_usuario(user_id)
+
+    if not eliminado:
+        return jsonify({"error": "Usuario no encontrado"}), 404
+    
     return jsonify({"message": "Usuario eliminado"}), 200
 
 # 6. Ruta que accede a una plantilla JInga2 
