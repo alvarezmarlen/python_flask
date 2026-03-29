@@ -1,0 +1,31 @@
+summary: Crear un nuevo usuario
+description: Crea un usuario con los datos proporcionados
+tags:
+  - Usuarios
+
+parameters:
+  - name: body
+    in: body
+    required: true
+    description: Datos del nuevo usuario
+    schema:
+      $ref: '#/definitions/Usuario'
+
+responses:
+  201:
+    description: Usuario creado correctamente
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Usuario recibido
+
+  400:
+    description: Error en la solicitud (datos inválidos o vacíos)
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Body vacío

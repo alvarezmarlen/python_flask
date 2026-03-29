@@ -1,0 +1,30 @@
+summary: Eliminar usuario
+description: Elimina un usuario según su ID
+tags:
+  - Usuarios
+
+parameters:
+  - name: user_id
+    in: path
+    type: integer
+    required: true
+    description: ID del usuario a eliminar
+
+responses:
+  200:
+    description: Usuario eliminado
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Usuario eliminado
+
+  404:
+    description: Usuario no encontrado
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Usuario no encontrado

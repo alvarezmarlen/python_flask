@@ -1,0 +1,24 @@
+summary: Obtener todos los usuarios
+description: Devuelve una lista de todos los usuarios registrados
+tags:
+  - Usuarios
+
+responses:
+  200:
+    description: Lista de usuarios
+    schema:
+      type: array
+      items:
+        $ref: '#/definitions/Usuario'
+    examples:
+      application/json:
+        - id: 1
+          nombre: Carlos
+          edad: 25
+          altura: 1.75
+          pais: España
+        - id: 2
+          nombre: Ana
+          edad: 30
+          altura: 1.65
+          pais: México

@@ -1,0 +1,38 @@
+swagger: "2.0"
+info:
+  title: API de Usuarios
+  description: API para manejar usuarios
+  version: "1.0.0"
+
+basePath: /
+
+schemes:
+  - http
+  - https
+
+definitions:
+  Usuario:
+    type: object
+    required:
+      - nombre
+      - edad
+      - altura
+      - pais
+    properties:
+      nombre:
+        type: string
+        description: Nombre completo del usuario
+      edad:
+        type: integer
+        description: Edad del usuario
+      altura:
+        type: number
+        description: Altura en metros
+      pais:
+        type: string
+        description: País de residencia
+    example:
+      nombre: Luis
+      edad: 28
+      altura: 1.75
+      pais: España

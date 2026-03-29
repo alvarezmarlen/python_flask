@@ -1,0 +1,46 @@
+summary: Actualizar un usuario
+description: Actualiza completamente un usuario existente
+tags:
+  - Usuarios
+
+parameters:
+  - name: user_id
+    in: path
+    type: integer
+    required: true
+    description: ID del usuario
+
+  - name: body
+    in: body
+    required: true
+    description: Datos del usuario a actualizar
+    schema:
+      $ref: '#/definitions/Usuario'
+
+responses:
+  200:
+    description: Usuario actualizado correctamente
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Usuario actualizado
+
+  400:
+    description: Error en la solicitud (datos inválidos o vacíos)
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+          example: No hay datos para actualizar
+
+  404:
+    description: Usuario no encontrado
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Usuario no encontrado

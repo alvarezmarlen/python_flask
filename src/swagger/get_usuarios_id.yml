@@ -1,0 +1,26 @@
+summary: Obtener usuario por ID
+description: Devuelve la información de un usuario según su ID
+tags:
+  - Usuarios
+
+parameters:
+  - name: user_id
+    in: path
+    type: integer
+    required: true
+    description: ID del usuario
+
+responses:
+  200:
+    description: Usuario encontrado
+    schema:
+      $ref: '#/definitions/Usuario'
+
+  404:
+    description: Usuario no encontrado
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Usuario no encontrado

@@ -1,0 +1,62 @@
+summary: Actualizar parcialmente un usuario
+description: Actualiza uno o varios campos de un usuario existente
+tags:
+  - Usuarios
+
+parameters:
+  - name: user_id
+    in: path
+    type: integer
+    required: true
+    description: ID del usuario
+
+  - name: body
+    in: body
+    required: true
+    description: Campos del usuario a actualizar (puede ser parcial)
+    schema:
+      type: object
+      properties:
+        nombre:
+          type: string
+          description: Nombre completo del usuario
+        edad:
+          type: integer
+          description: Edad del usuario
+        altura:
+          type: number
+          description: Altura en metros
+        pais:
+          type: string
+          description: País de residencia
+      example:
+        nombre: Ana
+        altura: 1.68
+
+responses:
+  200:
+    description: Usuario actualizado parcialmente
+    schema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Usuario actualizado parcialmente
+
+  400:
+    description: Error en la solicitud (datos inválidos o vacíos)
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+          example: No hay datos para actualizar
+
+  404:
+    description: Usuario no encontrado
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Usuario no encontrado
