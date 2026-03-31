@@ -4,7 +4,7 @@ from flasgger import Swagger, swag_from
 
 
 # Importamos desde archivo de servicios (el que adaptamos antes)
-from usuarios import * 
+from .usuarios import * 
 app = Flask(__name__)
 
 # Importamos Swagger
@@ -130,6 +130,7 @@ def patch_usuario_route(user_id):
         return jsonify({"error": "Usuario no encontrado"}), 404
 
     return jsonify({"message": "Usuario actualizado parcialmente"}), 200
+
 
 if __name__ == "__main__":
     app.run(debug=True)

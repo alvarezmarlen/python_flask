@@ -1,8 +1,12 @@
 import sqlite3
-from flask import jsonify
+import os
+
+# Ruta absoluta hacia la DB dentro de src
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # esto apunta a src/
+DB_PATH = os.path.join(BASE_DIR, "usuarios.db")
 
 def read_all():
-    con = sqlite3.connect("usuarios.db")
+    con = sqlite3.connect(DB_PATH)
     try:
         cur = con.cursor()
         res = cur.execute("SELECT ID, NOMBRE, EDAD, ALTURA, PAIS FROM LISTADEUSUARIOS")
@@ -16,7 +20,7 @@ def read_all():
 
 
 def read(user_id):
-    con = sqlite3.connect("usuarios.db")
+    con = sqlite3.connect(DB_PATH)
     try:
         cur = con.cursor()
         res = cur.execute("SELECT ID, NOMBRE, EDAD, ALTURA, PAIS FROM LISTADEUSUARIOS WHERE ID=?", [user_id])
@@ -32,7 +36,7 @@ def read(user_id):
 
 
 def create(new_user):
-    con = sqlite3.connect("usuarios.db")
+    con = sqlite3.connect(DB_PATH)
     try:
         cur = con.cursor()
         # No incluimos ID
@@ -50,7 +54,7 @@ def create(new_user):
 
 
 def update(user_id, upd_user):
-    con = sqlite3.connect("usuarios.db")
+    con = sqlite3.connect(DB_PATH)
     try:
         cur = con.cursor()
         # Actualizamos por ID
@@ -67,7 +71,7 @@ def update(user_id, upd_user):
 
 
 def delete(user_id):
-    con = sqlite3.connect("usuarios.db")
+    con = sqlite3.connect(DB_PATH)
     try:
         cur = con.cursor()
         cur.execute("DELETE FROM LISTADEUSUARIOS WHERE ID=?", [user_id])
@@ -80,7 +84,7 @@ def delete(user_id):
         con.close()
 
 def patch(user_id, fields):
-    con = sqlite3.connect("usuarios.db")
+    con = sqlite3.connect(DB_PATH)
     try:
         cur = con.cursor()
 

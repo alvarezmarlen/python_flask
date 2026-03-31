@@ -1,5 +1,5 @@
 # Importamos todas las funciones del archivo que adaptamos antes
-from usuarios_repository_sqlite import * 
+from .usuarios_repository_sqlite import * 
 
 def get_usuario_by(id_usuario):
     # Llama a la función read() que creamos para usuarios
