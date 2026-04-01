@@ -12,7 +12,7 @@ El objetivo es aprender cómo construir APIs y páginas web dinámicas de manera
 ## Instalación
 
 1. Clonar el repositorio:
-   git clone https://github.com/alvarezmarlen/python_flask.git
+- git clone https://github.com/alvarezmarlen/python_flask.git
 2. Crear un entorno virtual:
 - python -m venv venv
 - source venv/bin/activate   # Linux/Mac
