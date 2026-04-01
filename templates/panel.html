@@ -1,18 +1,27 @@
+{# Extiende la plantilla base que contiene la estructura general del sitio #}
 {% extends "base.html" %}
 
+{# Define el título de la página que se mostrará en la pestaña del navegador #}
 {% block title %}Panel de Usuarios{% endblock %}
 
+{# Define el encabezado principal de la página #}
 {% block header %}Lista de Usuarios{% endblock %}
 
+{# Bloque principal de contenido de la página #}
 {% block content %}
+    {# Verifica si la lista de usuarios no está vacía #}
     {% if usuarios %}
         <div class="user-grid">
+        {# Itera sobre cada usuario en la lista 'usuarios' #}
         {% for usuario in usuarios %}
             <div class="user-card">
+                {# Muestra la ID del usuario como una etiqueta o badge #}
                 <span class="user-badge">ID: {{ usuario.id }}</span>
                 <div class="user-info">
+                    {# Muestra el nombre del usuario en negrita #}
                     <strong>{{ usuario.nombre }}</strong>
                     <div class="user-details">
+                        {# Muestra datos del usuario #}
                         <div><strong>Edad:</strong> <span>{{ usuario.edad }} años</span></div>
                         <div><strong>Altura:</strong> <span>{{ usuario.altura }} m</span></div>
                         <div><strong>País:</strong> <span>{{ usuario.pais }}</span></div>
@@ -22,6 +31,7 @@
         {% endfor %}
         </div>
     {% else %}
+        {# Mensaje que se muestra si no hay usuarios en la base de datos #}
         <div class="empty-state">
             <p>No hay usuarios en la base de datos.</p>
         </div>

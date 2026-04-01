@@ -2,8 +2,13 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    
+    {# Título de la página, sobreescrito por bloque en panel.html #}
     <title>{% block title %}Mi Aplicación{% endblock %}</title>
+    
+    {# Estilos CSS internos para la plantilla #}
     <style>
+        /* Estilos generales del body */
         body {
             font-family: sans-serif;
             margin: 0;
@@ -11,6 +16,8 @@
             background-color: #fafafa;
             color: #3b4151;
         }
+
+        /* Estilos del encabezado principal */
         header {
             background-color: #1b1b1b;
             padding: 1rem 2rem;
@@ -18,12 +25,14 @@
             justify-content: space-between;
             align-items: center;
         }
+
         header h1 {
             color: #ffffff;
             font-size: 1.5rem;
             margin: 0;
             font-weight: 700;
         }
+
         header a {
             color: #85ea2d;
             text-decoration: none;
@@ -33,15 +42,20 @@
             border-radius: 4px;
             transition: all 0.3s ease;
         }
+
         header a:hover {
             background-color: #85ea2d;
             color: #1b1b1b;
         }
+
+        /* Contenedor principal */
         main {
             max-width: 1200px;
             margin: 2rem auto;
             padding: 0 1rem;
         }
+
+        /* Títulos secundarios */
         h2 {
             color: #3b4151;
             font-size: 2rem;
@@ -49,6 +63,8 @@
             padding-bottom: 0.5rem;
             margin-bottom: 2rem;
         }
+
+        /* Tarjetas de contenido general */
         .card {
             background-color: #ffffff;
             border: 1px solid #ebebeb;
@@ -57,6 +73,8 @@
             padding: 2rem;
             margin-bottom: 2rem;
         }
+
+        /* Pie de página */
         footer {
             text-align: center;
             padding: 2rem;
@@ -65,8 +83,8 @@
             border-top: 1px solid #ebebeb;
             margin-top: 4rem;
         }
-        
-        /* User Grid Styles */
+
+        /* Estilos de la cuadrícula de usuarios */
         .user-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -74,6 +92,8 @@
             padding: 0;
             margin: 0;
         }
+
+        /* Tarjeta individual de usuario */
         .user-card {
             background-color: #ffffff;
             border: 1px solid #ebebeb;
@@ -82,11 +102,14 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.03);
             transition: all 0.3s ease;
         }
+
         .user-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 15px rgba(0,0,0,0.08);
             border-color: #85ea2d;
         }
+
+        /* Badge que muestra el ID del usuario */
         .user-badge {
             display: inline-block;
             background-color: #1b1b1b;
@@ -98,10 +121,13 @@
             margin-bottom: 1rem;
             letter-spacing: 0.5px;
         }
+
+        /* Contenedor de información del usuario */
         .user-info {
             display: flex;
             flex-direction: column;
         }
+
         .user-info strong {
             font-size: 1.3rem;
             color: #1b1b1b;
@@ -110,15 +136,19 @@
             padding-bottom: 0.4rem;
             display: inline-block;
         }
+
+        /* Detalles específicos del usuario (edad, altura, país) */
         .user-details {
             color: #555;
             font-size: 0.95rem;
             line-height: 1.8;
         }
+
         .user-details div {
             display: flex;
             align-items: center;
         }
+
         .user-details strong {
             font-size: 0.95rem;
             color: #3b4151;
@@ -127,8 +157,10 @@
             padding: 0;
             display: inline-block;
             font-weight: 600;
-            width: 70px; /* Aligns the labels */
+            width: 70px; /* Alinea las etiquetas de los detalles */
         }
+
+        /* Estado vacío cuando no hay usuarios */
         .empty-state {
             text-align: center;
             color: #777;
@@ -141,21 +173,24 @@
     </style>
 </head>
 <body>
+    {# Encabezado de la aplicación con título y enlace a la documentación API #}
     <header>
         <h1>Sistema de Gestión de Usuarios (Bilbao)</h1>
         <a href="http://127.0.0.1:5000/apidocs">Probar la API con Swagger</a>
     </header>
 
+    {# Contenido principal de la página #}
     <main>
+        {# Título de la sección, sobrescrito por bloque en panel.html #}
         <h2>{% block header %}Bienvenido{% endblock %}</h2>
 
+        {# Tarjeta general para el contenido dinámico de la página #}
         <div class="card">
-        {% block content %}
-        <!-- Aquí irá el contenido de cada página -->
-        {% endblock %}
+            {% block content %}
+            <!-- Aquí irá el contenido específico de cada página -->
+            {% endblock %}
         </div>
     </main>
-
 
 </body>
 </html>
