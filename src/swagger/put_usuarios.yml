@@ -1,46 +1,53 @@
+# Resumen corto del endpoint (visible en la documentación)
 summary: Actualizar un usuario
+
+# Descripción detallada de la operación
 description: Actualiza completamente un usuario existente
+
+# Etiquetas para agrupar endpoints similares
 tags:
-  - Usuarios
+  - Modificar
 
+# Parámetros necesarios para ejecutar la operación
 parameters:
-  - name: user_id
-    in: path
-    type: integer
-    required: true
-    description: ID del usuario
+  - name: user_id               # Nombre del parámetro
+    in: path                    # Indica que se encuentra en la URL (ej: /usuarios/{user_id})
+    type: integer               # Tipo de dato esperado
+    required: true              # Es obligatorio
+    description: ID del usuario  # Explicación del parámetro
 
-  - name: body
+  - name: body                   # Parámetro enviado en el cuerpo de la solicitud
     in: body
     required: true
-    description: Datos del usuario a actualizar
+    description: Datos del usuario a actualizar  # Se espera la información completa del usuario
     schema:
-      $ref: '#/definitions/Usuario'
+      $ref: '#/definitions/Usuario'  # Se reutiliza el modelo Usuario definido globalmente
 
+# Posibles respuestas del endpoint
 responses:
   200:
-    description: Usuario actualizado correctamente
+    description: Usuario actualizado correctamente  # Caso exitoso
     schema:
       type: object
       properties:
         message:
           type: string
-          example: Usuario actualizado
+          example: Usuario actualizado  # Ejemplo de mensaje de éxito
 
   400:
-    description: Error en la solicitud (datos inválidos o vacíos)
+    description: Error en la solicitud (datos inválidos o vacíos)  # Error cuando la solicitud está mal formada
     schema:
       type: object
       properties:
         error:
           type: string
-          example: No hay datos para actualizar
+          example: No hay datos para actualizar  # Ejemplo de mensaje de error
 
   404:
-    description: Usuario no encontrado
+    description: Usuario no encontrado  # Error cuando el ID no corresponde a ningún usuario
     schema:
       type: object
       properties:
         error:
           type: string
-          example: Usuario no encontrado
+          example: Usuario no encontrado  # Ejemplo de mensaje de error

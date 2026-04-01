@@ -1,31 +1,38 @@
+# Resumen breve de la operación (lo que aparece en documentación)
 summary: Crear un nuevo usuario
+
+# Descripción más detallada de lo que hace el endpoint
 description: Crea un usuario con los datos proporcionados
+
+# Etiquetas para agrupar endpoints en la documentación (por ejemplo, en Swagger UI)
 tags:
-  - Usuarios
+  - Crear
 
+# Parámetros que recibe el endpoint
 parameters:
-  - name: body
-    in: body
-    required: true
-    description: Datos del nuevo usuario
+  - name: body               # Nombre del parámetro (convención común para el cuerpo de la petición)
+    in: body                 # Indica que el parámetro va en el cuerpo (body) de la solicitud HTTP
+    required: true           # Es obligatorio enviar este parámetro
+    description: Datos del nuevo usuario  # Explicación de lo que contiene el body
     schema:
-      $ref: '#/definitions/Usuario'
+      $ref: '#/definitions/Usuario'  # Referencia a un modelo definido en otra parte del documento (reutilizable)
 
+# Respuestas posibles del endpoint
 responses:
   201:
-    description: Usuario creado correctamente
+    description: Usuario creado correctamente  # Mensaje descriptivo del caso exitoso
     schema:
       type: object
       properties:
         message:
           type: string
-          example: Usuario recibido
+          example: Usuario recibido  # Ejemplo de respuesta exitosa
 
   400:
-    description: Error en la solicitud (datos inválidos o vacíos)
+    description: Error en la solicitud (datos inválidos o vacíos)  # Caso de error por mala petición
     schema:
       type: object
       properties:
         error:
           type: string
-          example: Body vacío
+          example: Body vacío  # Ejemplo de mensaje de error

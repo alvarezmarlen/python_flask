@@ -1,22 +1,28 @@
+# Resumen corto del endpoint (visible en la documentación)
 summary: Actualizar parcialmente un usuario
+
+# Descripción detallada de la operación
 description: Actualiza uno o varios campos de un usuario existente
+
+# Etiquetas para agrupar endpoints similares
 tags:
-  - Usuarios
+  - Modificar
 
+# Parámetros necesarios para ejecutar la operación
 parameters:
-  - name: user_id
-    in: path
-    type: integer
-    required: true
-    description: ID del usuario
+  - name: user_id               # Nombre del parámetro
+    in: path                    # Indica que se encuentra en la URL (ej: /usuarios/{user_id})
+    type: integer               # Tipo de dato esperado
+    required: true              # Es obligatorio
+    description: ID del usuario  # Explicación del parámetro
 
-  - name: body
+  - name: body                   # Parámetro enviado en el cuerpo de la solicitud
     in: body
     required: true
-    description: Campos del usuario a actualizar (puede ser parcial)
+    description: Campos del usuario a actualizar (puede ser parcial)  # Se permite actualizar solo algunos campos
     schema:
       type: object
-      properties:
+      properties:               # Propiedades que pueden actualizarse
         nombre:
           type: string
           description: Nombre completo del usuario
@@ -29,34 +35,35 @@ parameters:
         pais:
           type: string
           description: País de residencia
-      example:
+      example:                  # Ejemplo de un cuerpo de actualización parcial
         nombre: Ana
         altura: 1.68
 
+# Posibles respuestas del endpoint
 responses:
   200:
-    description: Usuario actualizado parcialmente
+    description: Usuario actualizado parcialmente  # Caso exitoso
     schema:
       type: object
       properties:
         message:
           type: string
-          example: Usuario actualizado parcialmente
+          example: Usuario actualizado parcialmente  # Ejemplo de mensaje de éxito
 
   400:
-    description: Error en la solicitud (datos inválidos o vacíos)
+    description: Error en la solicitud (datos inválidos o vacíos)  # Error cuando no hay datos para actualizar
     schema:
       type: object
       properties:
         error:
           type: string
-          example: No hay datos para actualizar
+          example: No hay datos para actualizar  # Ejemplo de mensaje de error
 
   404:
-    description: Usuario no encontrado
+    description: Usuario no encontrado  # Error cuando el ID no corresponde a ningún usuario
     schema:
       type: object
       properties:
         error:
           type: string
-          example: Usuario no encontrado
+          example: Usuario no encontrado  # Ejemplo de mensaje de error

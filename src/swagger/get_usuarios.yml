@@ -1,17 +1,25 @@
+# Resumen corto del endpoint (visible en la documentación)
 summary: Obtener todos los usuarios
-description: Devuelve una lista de todos los usuarios registrados
-tags:
-  - Usuarios
 
+# Descripción más detallada de la funcionalidad
+description: Devuelve una lista de todos los usuarios registrados
+
+# Etiquetas para agrupar endpoints relacionados
+tags:
+  - Consultar
+
+# Respuestas posibles del endpoint
 responses:
   200:
-    description: Lista de usuarios
+    description: Lista de usuarios  # Caso exitoso
+
     schema:
-      type: array
+      type: array                  # Indica que la respuesta es una lista
       items:
-        $ref: '#/definitions/Usuario'
+        $ref: '#/definitions/Usuario'  # Cada elemento de la lista es un objeto Usuario reutilizable
+
     examples:
-      application/json:
+      application/json:           # Ejemplo de respuesta en formato JSON
         - id: 1
           nombre: Carlos
           edad: 25
@@ -22,3 +30,4 @@ responses:
           edad: 30
           altura: 1.65
           pais: México
+        # Se muestran múltiples objetos para ilustrar una colección de usuarios

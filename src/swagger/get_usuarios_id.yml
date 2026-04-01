@@ -1,26 +1,33 @@
+# Resumen breve del endpoint (lo que se muestra en la lista de operaciones)
 summary: Obtener usuario por ID
+
+# Descripción más detallada de lo que hace este endpoint
 description: Devuelve la información de un usuario según su ID
+
+# Etiquetas para organizar los endpoints en la documentación (Swagger UI, por ejemplo)
 tags:
-  - Usuarios
+  - Consultar
 
+# Parámetros necesarios para realizar la consulta
 parameters:
-  - name: user_id
-    in: path
-    type: integer
-    required: true
-    description: ID del usuario
+  - name: user_id           # Nombre del parámetro
+    in: path                # Indica que forma parte de la URL (ej: /usuarios/{user_id})
+    type: integer           # Tipo de dato esperado
+    required: true          # Es obligatorio proporcionarlo
+    description: ID del usuario  # Explicación del parámetro
 
+# Posibles respuestas del endpoint
 responses:
   200:
-    description: Usuario encontrado
+    description: Usuario encontrado  # Caso exitoso cuando el usuario existe
     schema:
-      $ref: '#/definitions/Usuario'
+      $ref: '#/definitions/Usuario'  # Se reutiliza el modelo Usuario definido globalmente
 
   404:
-    description: Usuario no encontrado
+    description: Usuario no encontrado  # Caso en el que no existe el usuario
     schema:
       type: object
       properties:
         error:
           type: string
-          example: Usuario no encontrado
+          example: Usuario no encontrado  # Ejemplo de mensaje de error

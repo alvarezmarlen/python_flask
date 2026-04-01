@@ -1,27 +1,33 @@
+# Versión de Swagger/OpenAPI que se está usando
 swagger: "2.0"
+
+# Información general de la API
 info:
-  title: API de Usuarios
-  description: API para manejar usuarios
-  version: "1.0.0"
+  title: API de Usuarios            # Nombre de la API
+  description: API para manejar usuarios  # Descripción de la funcionalidad principal
+  version: "1.0.0"                  # Versión de la API
 
-basePath: /
+# Ruta base de todos los endpoints
+basePath: /                          # Todos los paths estarán relativos a esta ruta base
 
+# Protocolos soportados por la API
 schemes:
   - http
   - https
 
+# Definición de los modelos de datos reutilizables
 definitions:
   Usuario:
-    type: object
-    required:
+    type: object                     # El modelo es un objeto
+    required:                        # Campos obligatorios al crear o recibir un Usuario
       - nombre
       - edad
       - altura
       - pais
-    properties:
+    properties:                      # Propiedades del objeto Usuario
       nombre:
         type: string
-        description: Nombre completo del usuario
+        description: Nombre completo del usuario  # Explicación del campo
       edad:
         type: integer
         description: Edad del usuario
@@ -31,7 +37,7 @@ definitions:
       pais:
         type: string
         description: País de residencia
-    example:
+    example:                          # Ejemplo de un objeto Usuario
       nombre: Luis
       edad: 28
       altura: 1.75

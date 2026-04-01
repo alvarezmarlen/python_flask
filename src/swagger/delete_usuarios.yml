@@ -1,30 +1,37 @@
+# Resumen corto de la operación (visible en la documentación)
 summary: Eliminar usuario
+
+# Descripción más detallada del endpoint
 description: Elimina un usuario según su ID
+
+# Etiquetas para organizar los endpoints en la documentación
 tags:
-  - Usuarios
+  - Eliminar
 
+# Parámetros necesarios para ejecutar la operación
 parameters:
-  - name: user_id
-    in: path
-    type: integer
-    required: true
-    description: ID del usuario a eliminar
+  - name: user_id          # Nombre del parámetro
+    in: path               # Indica que va en la URL (ej: /usuarios/{user_id})
+    type: integer          # Tipo de dato esperado
+    required: true         # Es obligatorio
+    description: ID del usuario a eliminar  # Explicación del parámetro
 
+# Posibles respuestas del endpoint
 responses:
   200:
-    description: Usuario eliminado
+    description: Usuario eliminado  # Caso exitoso
     schema:
       type: object
       properties:
         message:
           type: string
-          example: Usuario eliminado
+          example: Usuario eliminado  # Ejemplo de respuesta correcta
 
   404:
-    description: Usuario no encontrado
+    description: Usuario no encontrado  # Caso en el que el usuario no existe
     schema:
       type: object
       properties:
         error:
           type: string
-          example: Usuario no encontrado
+          example: Usuario no encontrado  # Ejemplo de mensaje de error
